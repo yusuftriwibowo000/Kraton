@@ -1,2 +1,2 @@
-# Kraton
-Kraton Bagaskara
+# Toko Kurnia
+E-Kasir Toko Kurnia
