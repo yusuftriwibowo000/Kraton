@@ -13,6 +13,11 @@
     }
     ?>
 
+    <div class="col-md-1">
+        <label for="">#</label><br>
+        <label for=""><?=$now?></label>
+    </div>
+
     <div class="col-md-4">
         <?php
         if (isset($edit)) {
@@ -45,7 +50,7 @@
         <label for="">Keterangan</label>
         <input type="text" name='keterangan[]' class="form-control" value='<?= $value['keterangan'] ?>'>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-2">
         <label for="">Subtotal</label>
         <input type="text" name='subtotal[]' class="form-control subtotal" id='subtotal<?= $now ?>' value='<?= $value['subtotal'] ?>' readonly>
     </div>

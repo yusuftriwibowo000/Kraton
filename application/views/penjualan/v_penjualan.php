@@ -3,7 +3,7 @@
         <a href="<?php echo base_url() . "transaksi/listpenjualan" ?>" class="btn btn-success mb-3"> <span class="fa fa-arrow-alt-circle-left"></span> List Penjualan</a>
         <hr>
         <form action="<?= base_url('Transaksi/aksipenjualan') ?>" method="POST">
-            <div class="row">
+            <!-- <div class="row">
                 <div class="col-md-4">
                     <label for="">Tanggal</label>
                     <div class="input-group mb-3">
@@ -13,7 +13,7 @@
                         <input type="text" name="tanggal_jual" class="form-control datepicker">
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4"> -->
                     <!--<label for="">Nama Pembeli</label>-->
                     <!--<div class="input-group mb-3">-->
                     <!--    <div class="input-group-prepend">-->
@@ -21,9 +21,9 @@
                     <!--    </div>-->
                     <!--    <input type="text" name="nama_pembeli" class="form-control">-->
                     <!--</div>-->
-                </div>
+                <!-- </div>
             </div>
-            <hr>
+            <hr> -->
             <div class="loop-detail" data-counting='1'>
                 <?php
                 $this->load->view('penjualan/loop-detail', ['start' => 1, 'now' => 1])

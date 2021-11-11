@@ -160,7 +160,7 @@ class Transaksi extends CI_Controller
 		$kode_penjualan = $this->M_penjualan->get_kodepenjualan();
 		$penjualan = array(
 			'kode_penjualan' => $kode_penjualan,
-			'tanggal_penjualan' => $_POST['tanggal_jual'],
+			'tanggal_penjualan' => date('Y/m/d'),
 			
 			'total_qty' => $total_qty,
 			'total_penjualan' => $total,
@@ -172,7 +172,7 @@ class Transaksi extends CI_Controller
 		$penjualanbukubesar = array(
 			'kode_transaksi' => $kode_penjualan,
 			'tipe' => 'penjualan',
-			'tanggal' => $_POST['tanggal_jual'],
+			'tanggal' => date('Y/m/d'),
 			'nominal' =>  $total,
 			'jenis' => 'debit',
 			'keterangan' => $_POST['keterangan2'],
@@ -345,7 +345,7 @@ class Transaksi extends CI_Controller
 		$potongan = $this->input->post('potongan');
 		$penjualan = array(
 			'kode_penjualan' => $kode_penjualan,
-			'tanggal_penjualan' => $_POST['tanggal_jual'],
+			'tanggal_penjualan' => date('Y/m/d'),
 			'nama_pembeli' => $_POST['nama_pembeli'],
 			'total_qty' => $total_qty,
 			'total_penjualan' => $total,
@@ -356,7 +356,7 @@ class Transaksi extends CI_Controller
 		);
 		$this->common->update('penjualan', $penjualan, ['kode_penjualan' => $kode_penjualan]); //update penjualan
 		$bukuBesar = array(
-			'tanggal' => $_POST['tanggal_jual'],
+			'tanggal' => date('Y/m/d'),
 			'nominal' => $total,
 			'keterangan' => $_POST['keterangan2']
 		);
