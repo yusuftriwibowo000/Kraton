@@ -467,22 +467,13 @@ class Transaksi extends CI_Controller
 		$id_admin = $this->session->userdata('id_admin');
 		$karyawan = $this->db->query("SELECT username from admin WHERE id_admin = $id_admin");
 
-        // Membuat judul
-        $printer->initialize();
-        $printer->selectPrintMode(Escpos\Printer::MODE_DOUBLE_HEIGHT); // Setting teks menjadi lebih besar
-        $printer->setJustification(Escpos\Printer::JUSTIFY_CENTER); // Setting teks menjadi rata tengah
-        $printer->text("Toko Kurnia\n");
-        $printer->text("\n");
-
         // Data transaksi
         $printer->initialize();
-        $printer->text("Kasir : ".$karyawan); //Di Setting gae session log in cup
-        $printer->text("Waktu : ".date('d-m-Y H:i:s')); // nampil waktu otomatis seng ndek transaksi cup
+		$printer->text(buatBaris4Kolom("KODE TRANS", '', "kasir :", ".karyawan"));
+        $printer->text("".date('d-m-Y H:i:s')); // nampil waktu otomatis seng ndek transaksi cup
 
         // Membuat tabel
         $printer->initialize(); // Reset bentuk/jenis teks
-		$printer->text("----------------------------------------\n");
-		$printer->text(buatBaris4Kolom("Barang", "qy", "Harga", "Subtotal")); //Barang dll pisan otomatis cup
 		$printer->text("----------------------------------------\n");
 		$lasId = $this->M_penjualan->getLastId();
 		foreach ($_POST['kode_barang'] as $key => $value) {
@@ -494,12 +485,14 @@ class Transaksi extends CI_Controller
 				'keterangan' => $this->input->post('keterangan')[$key],
 			];
 			// $this->db->insert('detail_penjualan', $data);
-			$printer->text(buatBaris4Kolom($data['kode_barang'], $data['qty'], $data['harga_satuan'], $data['harga_satuan'] * $data['qty']));
+			$printer->text($data['kode_barang']);
+			$printer->text("\n");
+			$printer->text(buatBaris4Kolom('', $data['qty'], $data['harga_satuan'], $data['harga_satuan'] * $data['qty']));
 		}
-        // $printer->text(buatBaris4Kolom("Telur", "2", "5.000", "10.000"));
-        // $printer->text(buatBaris4Kolom("Tepung terigu", "1", "8.200", "16.400"));
         $printer->text("----------------------------------------\n");
         $printer->text(buatBaris4Kolom('', '', "Total", "56.400"));
+		$printer->text(buatBaris4Kolom('', '', "Potongan", "56.400"));
+		$printer->text(buatBaris4Kolom('', '', "Bayar", "56.400"));
         $printer->text("\n");
 
          // Pesan penutup
@@ -507,8 +500,15 @@ class Transaksi extends CI_Controller
         $printer->setJustification(Escpos\Printer::JUSTIFY_CENTER);
         $printer->text("Terima kasih telah berbelanja\n");
         $printer->text("http://badar-blog.blogspot.com\n");
+        $printer->feed(5); // mencetak 5 baris kosong agar terangkat (pemotong kertas saya memiliki jarak 5 baris dari toner)
+        
 
-        $printer->feed(8); // mencetak 5 baris kosong agar terangkat (pemotong kertas saya memiliki jarak 5 baris dari toner)
+        // Membuat judul
+        $printer->initialize();
+        $printer->selectPrintMode(Escpos\Printer::MODE_DOUBLE_HEIGHT); // Setting teks menjadi lebih besar
+        $printer->setJustification(Escpos\Printer::JUSTIFY_CENTER); // Setting teks menjadi rata tengah
+        $printer->text("Toko Kurnia\n");
+        $printer->text("\n");
         $printer->close();
     }
 
