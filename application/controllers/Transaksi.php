@@ -468,28 +468,32 @@ class Transaksi extends CI_Controller
 
 		$kode_penjualan = $lasId[0]['kode_penjualan']; //kode transaksi
 		$id_admin = $this->session->userdata('id_admin');
-		$karyawan = $this->db->query("SELECT username from admin WHERE id_admin = $id_admin"); //nama karyawan
+		$karyawan = $this->db->query("SELECT username from admin WHERE id_admin = $id_admin")->result_array(); //nama karyawan
 
         // Data transaksi
         $printer->initialize();
         $printer->text(date('d-m-Y H:i:s')); // nampil waktu otomatis seng ndek transaksi cup
 		$printer->text(buatBaris4Kolom($kode_penjualan, '', "kasir :", $karyawan));
+		var_dump($karyawan[0]['username']);
 
         // Membuat tabel
         $printer->initialize(); // Reset bentuk/jenis teks
 		$printer->text("----------------------------------------\n");
 		foreach ($_POST['kode_barang'] as $key => $value) {
-			$kode_barang = $this->input->post('kode_barang')[$key];
+			// $kode_barang = $this->input->post('kode_barang')[$key];
 			$data = [
 				'kode_penjualan'=> $lasId[0]['kode_penjualan'],
 				'kode_barang'	=> $this->input->post('kode_barang')[$key],
 				'qty'			=> $this->input->post('qty')[$key],
 				'harga_satuan'	=> $this->input->post('harga_satuan')[$key],
 				'keterangan'	=> $this->input->post('keterangan')[$key],
-				'nama_barang'	=> $this->db->query("SELECT nama_barang FROM barang WHERE kode_barang = '$kode_barang'")
+				// 'nama_barang'	=> 
 			];
-			// $this->db->insert('detail_penjualan', $data);
-			$printer->text($data['nama_barang']);
+			$kode_barang = $data['kode_barang'];
+			$nama_barang = $this->db->query("SELECT nama_barang FROM barang WHERE kode_barang = '$kode_barang'")->result_array();
+			
+			// var_dump($nama_barang[0]['nama_barang']);
+			$printer->text($nama_barang[0]['nama_barang']);
 			$printer->text("\n");
 			$printer->text(buatBaris4Kolom('', $data['qty'], $data['harga_satuan'], $data['harga_satuan'] * $data['qty']));
 		}
