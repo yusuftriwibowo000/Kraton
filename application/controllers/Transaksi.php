@@ -463,43 +463,46 @@ class Transaksi extends CI_Controller
             // Hasil yang berupa array, disatukan kembali menjadi string dan tambahkan \n disetiap barisnya.
             return implode($hasilBaris) . "\n";
         }   
+		
+		$lasId = $this->M_penjualan->getLastId(); //ambil data penjualan terakhir
 
+		$kode_penjualan = $lasId[0]['kode_penjualan']; //kode transaksi
 		$id_admin = $this->session->userdata('id_admin');
-		$karyawan = $this->db->query("SELECT username from admin WHERE id_admin = $id_admin");
+		$karyawan = $this->db->query("SELECT username from admin WHERE id_admin = $id_admin"); //nama karyawan
 
         // Data transaksi
         $printer->initialize();
-		$printer->text(buatBaris4Kolom("KODE TRANS", '', "kasir :", ".karyawan"));
-        $printer->text("".date('d-m-Y H:i:s')); // nampil waktu otomatis seng ndek transaksi cup
+        $printer->text(date('d-m-Y H:i:s')); // nampil waktu otomatis seng ndek transaksi cup
+		$printer->text(buatBaris4Kolom($kode_penjualan, '', "kasir :", $karyawan));
 
         // Membuat tabel
         $printer->initialize(); // Reset bentuk/jenis teks
 		$printer->text("----------------------------------------\n");
-		$lasId = $this->M_penjualan->getLastId();
 		foreach ($_POST['kode_barang'] as $key => $value) {
 			$data = [
-				'kode_penjualan' => $lasId[0]['kode_penjualan'],
-				'kode_barang' => $this->input->post('kode_barang')[$key],
-				'qty' => $this->input->post('qty')[$key],
-				'harga_satuan' => $this->input->post('harga_satuan')[$key],
-				'keterangan' => $this->input->post('keterangan')[$key],
+				'kode_penjualan'=> $lasId[0]['kode_penjualan'],
+				'kode_barang'	=> $this->input->post('kode_barang')[$key],
+				'qty'			=> $this->input->post('qty')[$key],
+				'harga_satuan'	=> $this->input->post('harga_satuan')[$key],
+				'keterangan'	=> $this->input->post('keterangan')[$key],
+				'nama_barang'	=> $this->db->query("SELECT nama_barang FROM barang WHERE kode_barang = $this->input->post('kode_barang')[$key]")
 			];
 			// $this->db->insert('detail_penjualan', $data);
-			$printer->text($data['kode_barang']);
+			$printer->text($data['nama_barang']);
 			$printer->text("\n");
 			$printer->text(buatBaris4Kolom('', $data['qty'], $data['harga_satuan'], $data['harga_satuan'] * $data['qty']));
 		}
         $printer->text("----------------------------------------\n");
-        $printer->text(buatBaris4Kolom('', '', "Total", "56.400"));
-		$printer->text(buatBaris4Kolom('', '', "Potongan", "56.400"));
-		$printer->text(buatBaris4Kolom('', '', "Bayar", "56.400"));
+        $printer->text(buatBaris4Kolom('', '', "Total", $lasId[0]['total_penjualan']));
+		$printer->text(buatBaris4Kolom('', '', "Potongan", $lasId[0]['potongan']));
+		$printer->text(buatBaris4Kolom('', '', "Bayar", $lasId[0]['total_bayar']));
         $printer->text("\n");
 
          // Pesan penutup
         $printer->initialize();
         $printer->setJustification(Escpos\Printer::JUSTIFY_CENTER);
         $printer->text("Terima kasih telah berbelanja\n");
-        $printer->text("http://badar-blog.blogspot.com\n");
+        // $printer->text("http://badar-blog.blogspot.com\n");
         $printer->feed(5); // mencetak 5 baris kosong agar terangkat (pemotong kertas saya memiliki jarak 5 baris dari toner)
         
 

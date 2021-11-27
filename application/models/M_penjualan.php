@@ -4,7 +4,7 @@ class M_penjualan extends CI_Model
 {
     function getLastId()
     {
-        $sql = $this->db->select('kode_penjualan');
+        $sql = $this->db->select('*');
         $sql = $this->db->from('penjualan');
         $sql = $this->db->order_by('kode_penjualan', 'desc');
         $sql = $this->db->limit(1);
