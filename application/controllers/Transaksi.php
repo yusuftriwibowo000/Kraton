@@ -161,7 +161,6 @@ class Transaksi extends CI_Controller
 		$penjualan = array(
 			'kode_penjualan' => $kode_penjualan,
 			'tanggal_penjualan' => date('Y/m/d'),
-			
 			'total_qty' => $total_qty,
 			'total_penjualan' => $total,
 			'total_bayar' => $total_bayar,
@@ -177,9 +176,11 @@ class Transaksi extends CI_Controller
 			'jenis' => 'debit',
 			'keterangan' => $_POST['keterangan2'],
 		);
-		$this->db->insert('penjualan', $penjualan);
-		$this->db->insert('buku_besar', $penjualanbukubesar);
+		$this->db->insert('penjualan', $penjualan); //insert ke tabel penjualan
+		$this->db->insert('buku_besar', $penjualanbukubesar); //insert ke tabel buku besar
 		$lasId = $this->M_penjualan->getLastId();
+
+		//insert ke tabel detail_penjualan
 		foreach ($_POST['kode_barang'] as $key => $value) {
 			$data = [
 				'kode_penjualan' => $lasId[0]['kode_penjualan'],
@@ -190,12 +191,15 @@ class Transaksi extends CI_Controller
 			];
 			$this->db->insert('detail_penjualan', $data);
 		}
+		//update stok di tabel barang
 		foreach ($_POST['kode_barang'] as $key => $value) {
 
 			$kode_barang = $this->input->post('kode_barang')[$key];
 			$qty = $this->input->post('qty')[$key];
 			$this->db->query("UPDATE `barang` SET `stok`=stok-'$qty' WHERE kode_barang='$kode_barang'");
 		}
+
+		$this->cetak_struk(); //cetak struk
 		$this->session->set_flashdata('tambahpenjualan', '<div class="alert alert-success" role="alert">Penjualan Berhasil Disimpan</div>');
 		redirect('transaksi/penjualan');
 	}
@@ -457,8 +461,10 @@ class Transaksi extends CI_Controller
             }
 
             // Hasil yang berupa array, disatukan kembali menjadi string dan tambahkan \n disetiap barisnya.
-            return implode($hasilBaris, "\n") . "\n";
+            return implode($hasilBaris) . "\n";
         }   
+
+		$karyawan = $this->db->query("SELECT username from admin WHERE id_admin = $this->session->userdata('id_admin')");
 
         // Membuat judul
         $printer->initialize();
@@ -469,17 +475,28 @@ class Transaksi extends CI_Controller
 
         // Data transaksi
         $printer->initialize();
-        $printer->text("Kasir : Badar Wildanie\n"); //Di Setting gae session log in cup
-        $printer->text("Waktu : 13-10-2019 19:23:22\n"); // nampil waktu otomatis seng ndek transaksi cup
+        $printer->text("Kasir : ".$karyawan); //Di Setting gae session log in cup
+        $printer->text("Waktu : ".date('d-m-Y H:i:s')); // nampil waktu otomatis seng ndek transaksi cup
 
         // Membuat tabel
         $printer->initialize(); // Reset bentuk/jenis teks
-        $printer->text("----------------------------------------\n");
-        $printer->text(buatBaris4Kolom("Barang", "qy", "Harga", "Subtotal")); //Barang dll pisan otomatis cup
-        $printer->text("----------------------------------------\n");
-        $printer->text(buatBaris4Kolom("Makaroni 250gr", "2", "15.000", "30.000"));
-        $printer->text(buatBaris4Kolom("Telur", "2", "5.000", "10.000"));
-        $printer->text(buatBaris4Kolom("Tepung terigu", "1", "8.200", "16.400"));
+		$printer->text("----------------------------------------\n");
+		$printer->text(buatBaris4Kolom("Barang", "qy", "Harga", "Subtotal")); //Barang dll pisan otomatis cup
+		$printer->text("----------------------------------------\n");
+		$lasId = $this->M_penjualan->getLastId();
+		foreach ($_POST['kode_barang'] as $key => $value) {
+			$data = [
+				'kode_penjualan' => $lasId[0]['kode_penjualan'],
+				'kode_barang' => $this->input->post('kode_barang')[$key],
+				'qty' => $this->input->post('qty')[$key],
+				'harga_satuan' => $this->input->post('harga_satuan')[$key],
+				'keterangan' => $this->input->post('keterangan')[$key],
+			];
+			// $this->db->insert('detail_penjualan', $data);
+			$printer->text(buatBaris4Kolom($data['kode_barang'], $data['qty'], $data['harga_satuan'], $data['harga_satuan'] * $data['qty']));
+		}
+        // $printer->text(buatBaris4Kolom("Telur", "2", "5.000", "10.000"));
+        // $printer->text(buatBaris4Kolom("Tepung terigu", "1", "8.200", "16.400"));
         $printer->text("----------------------------------------\n");
         $printer->text(buatBaris4Kolom('', '', "Total", "56.400"));
         $printer->text("\n");
