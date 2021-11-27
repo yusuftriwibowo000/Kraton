@@ -479,13 +479,14 @@ class Transaksi extends CI_Controller
         $printer->initialize(); // Reset bentuk/jenis teks
 		$printer->text("----------------------------------------\n");
 		foreach ($_POST['kode_barang'] as $key => $value) {
+			$kode_barang = $this->input->post('kode_barang')[$key];
 			$data = [
 				'kode_penjualan'=> $lasId[0]['kode_penjualan'],
 				'kode_barang'	=> $this->input->post('kode_barang')[$key],
 				'qty'			=> $this->input->post('qty')[$key],
 				'harga_satuan'	=> $this->input->post('harga_satuan')[$key],
 				'keterangan'	=> $this->input->post('keterangan')[$key],
-				'nama_barang'	=> $this->db->query("SELECT nama_barang FROM barang WHERE kode_barang = $this->input->post('kode_barang')[$key]")
+				'nama_barang'	=> $this->db->query("SELECT nama_barang FROM barang WHERE kode_barang = '$kode_barang'")
 			];
 			// $this->db->insert('detail_penjualan', $data);
 			$printer->text($data['nama_barang']);
