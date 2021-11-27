@@ -464,7 +464,8 @@ class Transaksi extends CI_Controller
             return implode($hasilBaris) . "\n";
         }   
 
-		$karyawan = $this->db->query("SELECT username from admin WHERE id_admin = $this->session->userdata('id_admin')");
+		$id_admin = $this->session->userdata('id_admin');
+		$karyawan = $this->db->query("SELECT username from admin WHERE id_admin = $id_admin");
 
         // Membuat judul
         $printer->initialize();
