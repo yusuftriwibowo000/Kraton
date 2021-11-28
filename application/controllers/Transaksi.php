@@ -473,6 +473,7 @@ class Transaksi extends CI_Controller
         // Data transaksi
         $printer->initialize();
         $printer->text(date('d-m-Y H:i:s')); // nampil waktu otomatis seng ndek transaksi cup
+		$printer->text("\n");
 		$printer->text(buatBaris4Kolom($kode_penjualan, '', "kasir :", $karyawan));
 		var_dump($karyawan[0]['username']);
 
@@ -501,14 +502,19 @@ class Transaksi extends CI_Controller
         $printer->text(buatBaris4Kolom('', '', "Total", $lasId[0]['total_penjualan']));
 		$printer->text(buatBaris4Kolom('', '', "Potongan", $lasId[0]['potongan']));
 		$printer->text(buatBaris4Kolom('', '', "Bayar", $lasId[0]['total_bayar']));
+		$printer->text("----------------------------------------\n");
+		$printer->text(buatBaris4Kolom('', '', "Kembali", $lasId[0]['total_bayar'] - (['total_penjualan'] + ['potongan'])));
         $printer->text("\n");
 
          // Pesan penutup
         $printer->initialize();
         $printer->setJustification(Escpos\Printer::JUSTIFY_CENTER);
         $printer->text("Terima kasih telah berbelanja\n");
+		$printer->text("BARANG YANG SUDAH DIBELI TIDAK DAPAT\n");
+		$printer->text("DITUKAR / DIKEMBALIKAN\n");
+		$printer->text("KECUALI ADA PERJANJIAN\n");
         // $printer->text("http://badar-blog.blogspot.com\n");
-        $printer->feed(5); // mencetak 5 baris kosong agar terangkat (pemotong kertas saya memiliki jarak 5 baris dari toner)
+        $printer->feed(4); // mencetak 5 baris kosong agar terangkat (pemotong kertas saya memiliki jarak 5 baris dari toner)
         
 
         // Membuat judul
@@ -516,7 +522,12 @@ class Transaksi extends CI_Controller
         $printer->selectPrintMode(Escpos\Printer::MODE_DOUBLE_HEIGHT); // Setting teks menjadi lebih besar
         $printer->setJustification(Escpos\Printer::JUSTIFY_CENTER); // Setting teks menjadi rata tengah
         $printer->text("Toko Kurnia\n");
-        $printer->text("\n");
+        
+		$printer->initialize();
+        $printer->setJustification(Escpos\Printer::JUSTIFY_CENTER);
+        $printer->text("Jl. Mawar A.26 (Pasar Tanggul) Jember\n");
+		$printer->text("Tlpn. 085-258-888-949\n");
+		$printer->text("\n");
         $printer->close();
     }
 
