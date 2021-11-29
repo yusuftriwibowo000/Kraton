@@ -446,10 +446,10 @@ class Transaksi extends CI_Controller
         // membuat fungsi untuk membuat 1 baris tabel, agar dapat dipanggil berkali-kali dgn mudah
         function buatBaris4Kolom($kolom1, $kolom2, $kolom3, $kolom4) {
             // Mengatur lebar setiap kolom (dalam satuan karakter)
-            $lebar_kolom_1 = 18;
-            $lebar_kolom_2 = 2;
-            $lebar_kolom_3 = 8;
-            $lebar_kolom_4 = 9;
+            $lebar_kolom_1 = 11;
+            $lebar_kolom_2 = 4;
+            $lebar_kolom_3 = 11;
+            $lebar_kolom_4 = 11;
 
             // Melakukan wordwrap(), jadi jika karakter teks melebihi lebar kolom, ditambahkan \n 
             $kolom1 = wordwrap($kolom1, $lebar_kolom_1, "\n", true);
@@ -525,7 +525,7 @@ class Transaksi extends CI_Controller
 		$printer->text(buatBaris4Kolom('', '', "Potongan", $this->rupiah($lasId[0]['potongan'])));
 		$printer->text(buatBaris4Kolom('', '', "Bayar", $this->rupiah($lasId[0]['total_bayar'])));
 		$printer->text("----------------------------------------\n");
-		$printer->text(buatBaris4Kolom('', '', "Kembali", $this->rupiah($lasId[0]['total_bayar'] - ($lasId[0]['total_penjualan'] + $lasId[0]['potongan']))));
+		$printer->text(buatBaris4Kolom('', '', "Kembali", $this->rupiah($lasId[0]['total_bayar'] - ($lasId[0]['total_penjualan'] - $lasId[0]['potongan']))));
         $printer->text("\n");
 
          // Pesan penutup
@@ -547,7 +547,7 @@ class Transaksi extends CI_Controller
         
 		$printer->initialize();
         $printer->setJustification(Escpos\Printer::JUSTIFY_CENTER);
-        $printer->text("Jl. Mawar A.26 (Pasar Tanggul) Jember\n");
+        $printer->text("Jl. Mawar A.26 (Psr Tanggul) Jember\n");
 		$printer->text("Tlpn. 085-258-888-949\n");
 		$printer->text("\n");
         $printer->close();

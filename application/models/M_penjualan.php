@@ -27,7 +27,7 @@ class M_penjualan extends CI_Model
          $kode = 1;    
         }
         $kodemax = str_pad($kode, 4, "0", STR_PAD_LEFT); 
-        $kodejadi = "PJ".$kodemax;  
+        $kodejadi = "TB".$kodemax;  
         return $kodejadi;
   }
 
