@@ -166,7 +166,7 @@ class Transaksi extends CI_Controller
 			'total_bayar' => $total_bayar,
 			'potongan' => $potongan,
 			'id_admin' => $this->session->userdata("id_admin"),
-			'keterangan' => $_POST['keterangan2'],
+			// 'keterangan' => $_POST['keterangan2'],
 		);
 		$penjualanbukubesar = array(
 			'kode_transaksi' => $kode_penjualan,
@@ -174,7 +174,7 @@ class Transaksi extends CI_Controller
 			'tanggal' => date('Y/m/d'),
 			'nominal' =>  $total,
 			'jenis' => 'debit',
-			'keterangan' => $_POST['keterangan2'],
+			// 'keterangan' => $_POST['keterangan2'],
 		);
 		$this->db->insert('penjualan', $penjualan); //insert ke tabel penjualan
 		$this->db->insert('buku_besar', $penjualanbukubesar); //insert ke tabel buku besar
@@ -408,6 +408,14 @@ class Transaksi extends CI_Controller
 		redirect('penjualan/edit/' . $kode_penjualan);
 	}
 
+	//Format rupiah
+	public function rupiah($angka){
+	
+		$hasil_rupiah = number_format($angka,0,'.','.');
+		return $hasil_rupiah;
+	 
+	}
+
 
     public function cetak_struk() {
         // me-load library escpos
@@ -474,8 +482,7 @@ class Transaksi extends CI_Controller
         $printer->initialize();
         $printer->text(date('d-m-Y H:i:s')); // nampil waktu otomatis seng ndek transaksi cup
 		$printer->text("\n");
-		$printer->text(buatBaris4Kolom($kode_penjualan, '', "kasir :", $karyawan));
-		var_dump($karyawan[0]['username']);
+		$printer->text(buatBaris4Kolom($kode_penjualan, '', "kasir :", $karyawan[0]['username']));
 
         // Membuat tabel
         $printer->initialize(); // Reset bentuk/jenis teks
@@ -487,7 +494,6 @@ class Transaksi extends CI_Controller
 				'kode_barang'	=> $this->input->post('kode_barang')[$key],
 				'qty'			=> $this->input->post('qty')[$key],
 				'harga_satuan'	=> $this->input->post('harga_satuan')[$key],
-				'keterangan'	=> $this->input->post('keterangan')[$key],
 				// 'nama_barang'	=> 
 			];
 			$kode_barang = $data['kode_barang'];
@@ -496,14 +502,14 @@ class Transaksi extends CI_Controller
 			// var_dump($nama_barang[0]['nama_barang']);
 			$printer->text($nama_barang[0]['nama_barang']);
 			$printer->text("\n");
-			$printer->text(buatBaris4Kolom('', $data['qty'], $data['harga_satuan'], $data['harga_satuan'] * $data['qty']));
+			$printer->text(buatBaris4Kolom('', $data['qty'], $this->rupiah($data['harga_satuan']), $this->rupiah($data['harga_satuan'] * $data['qty'])));
 		}
         $printer->text("----------------------------------------\n");
-        $printer->text(buatBaris4Kolom('', '', "Total", $lasId[0]['total_penjualan']));
-		$printer->text(buatBaris4Kolom('', '', "Potongan", $lasId[0]['potongan']));
-		$printer->text(buatBaris4Kolom('', '', "Bayar", $lasId[0]['total_bayar']));
+        $printer->text(buatBaris4Kolom('', '', "Total", $this->rupiah($lasId[0]['total_penjualan'])));
+		$printer->text(buatBaris4Kolom('', '', "Potongan", $this->rupiah($lasId[0]['potongan'])));
+		$printer->text(buatBaris4Kolom('', '', "Bayar", $this->rupiah($lasId[0]['total_bayar'])));
 		$printer->text("----------------------------------------\n");
-		$printer->text(buatBaris4Kolom('', '', "Kembali", $lasId[0]['total_bayar'] - (['total_penjualan'] + ['potongan'])));
+		$printer->text(buatBaris4Kolom('', '', "Kembali", $this->rupiah($lasId[0]['total_bayar'] - ($lasId[0]['total_penjualan'] + $lasId[0]['potongan']))));
         $printer->text("\n");
 
          // Pesan penutup

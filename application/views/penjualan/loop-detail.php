@@ -18,13 +18,29 @@
         <label for=""><?=$now?></label>
     </div>
 
+    <div class="col-md-2">
+        <label for="">Kategori</label>
+        <select name="" class="form-control select2 setHarga" data-target="#harga<?= $now ?>" id="">
+            <option value="">---Pilih Barang---</option>
+            <?php $sql = $this->db->query("SELECT * FROM barang")->result();
+            foreach ($sql as $s) {
+                $selected = '';
+                if ($value['kode_barang'] != '') {
+                    $selected = $value['kode_barang'] == $s->kode_barang ? 'selected' : '';
+                }
+            ?>
+                <option data-idr='<?= $s->harga_jual ?>' value="<?= $s->kode_barang ?>" <?= $selected ?>><?= $s->nama_barang ?></option>
+            <?php } ?>
+        </select>
+    </div>
+
     <div class="col-md-4">
         <?php
         if (isset($edit)) {
             echo "<input type='hidden' name='id_detail[]' value='$value[id_detail]'>";
         }
         ?>
-        <label for="">Kode Barang</label>
+        <label for="">Nama Barang</label>
         <select name="kode_barang[]" class="form-control select2 setHarga" data-target="#harga<?= $now ?>" id="">
             <option value="">---Pilih Barang---</option>
             <?php $sql = $this->db->query("SELECT * FROM barang")->result();
@@ -46,10 +62,7 @@
         <label for="">Harga Satuan</label>
         <input type="number" name='harga_satuan[]' class="form-control qtyHarga" id='harga<?= $now ?>' data-parent='#qty<?= $now ?>' data-subtotal='#subtotal<?= $now ?>' value="<?= $value['harga_satuan'] ?>" readonly>
     </div>
-    <div class="col-md-2">
-        <label for="">Keterangan</label>
-        <input type="text" name='keterangan[]' class="form-control" value='<?= $value['keterangan'] ?>'>
-    </div>
+    
     <div class="col-md-2">
         <label for="">Subtotal</label>
         <input type="text" name='subtotal[]' class="form-control subtotal" id='subtotal<?= $now ?>' value='<?= $value['subtotal'] ?>' readonly>

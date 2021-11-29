@@ -1,6 +1,6 @@
 <div class="card shadow py-2">
     <div class="card-body">
-        <a href="<?php echo base_url() . "transaksi/listpenjualan" ?>" class="btn btn-success mb-3"> <span class="fa fa-arrow-alt-circle-left"></span> List Penjualan</a>
+        <!-- <a href="<?php echo base_url() . "transaksi/listpenjualan" ?>" class="btn btn-success mb-3"> <span class="fa fa-arrow-alt-circle-left"></span> List Penjualan</a> -->
         <hr>
         <form action="<?= base_url('Transaksi/aksipenjualan') ?>" method="POST">
             <!-- <div class="row">
@@ -43,12 +43,12 @@
             <hr>
             <div class="row">
             <div class="col-md-4">
-                    <label for="">Keterangan</label>
+                    <label for=""></label>
                     <div class="input-group mb-3">
-                        <div class="input-group-prepend">
+                        <!-- <div class="input-group-prepend">
                             <span class="input-group-text" id="basic-addon1"><span class="fas fa-address-book"></span> </span>
                         </div>
-                        <input type="text" name="keterangan2" class="form-control">
+                        <input type="text" name="keterangan2" class="form-control"> -->
                     </div>
                 </div>
 
@@ -58,7 +58,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="basic-addon1"><span class="fas fa-address-book"></span> </span>
                         </div>
-                        <input type="number" name="total_bayar" class="form-control totalKembalian" id='inputBayar' value='0'>
+                        <input type="text" name="total_bayar" class="form-control totalKembalian" id='inputBayar' value='0'>
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -71,12 +71,11 @@
                     </div>
                 </div>
             </div>
-
-            <div class="mt-3">
-                <?php
-                $this->load->view('common/btn');
-                ?>
-            </div>
+                    <div class="mt-3">
+                        <?php
+                        $this->load->view('common/btn');
+                        ?>
+                    </div>
         </form>
     </div>
 </div>
