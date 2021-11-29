@@ -67,7 +67,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="basic-addon1"><span class="fas fa-address-book"></span> </span>
                         </div>
-                        <input type="number" name="potongan" class="form-control totalKembalian" id='inputPotongan' value='0'>
+                        <input type="text" name="potongan" class="form-control totalKembalian" id='inputPotongan' value='0'>
                     </div>
                 </div>
             </div>

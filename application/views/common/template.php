@@ -262,6 +262,16 @@
   <script src="<?php echo base_url() . "assets/" ?>vendor/sweetalert-master/dist/sweetalert-dev.js"></script>
   <script src="<?php echo base_url() . "assets/" ?>vendor/bootstrap-datepicker-master/dist/js/bootstrap-datepicker.min.js"></script>
   <script src="<?php echo base_url() . "assets/" ?>js/custom.js"></script>
+  <script>
+    $(document).ready(function(){
+      //kategori
+      $("#kategori").change(function (){
+        var url = "<?php echo base_url('Transaksi/barang');?>/"+$(this).val();
+        $('#barang').load(url);
+        return false;
+      })
+    });
+  </script>
 </body>
 
 </html>

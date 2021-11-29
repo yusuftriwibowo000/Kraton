@@ -5,7 +5,8 @@
         'qty' => '',
         'harga_satuan' => '',
         'keterangan' => '',
-        'subtotal' => ''
+        'subtotal' => '',
+        'id_kategori' => ''
     );
     if (isset($edit)) {
         $value = $edit;
@@ -20,16 +21,16 @@
 
     <div class="col-md-2">
         <label for="">Kategori</label>
-        <select name="" class="form-control select2 setHarga" data-target="#harga<?= $now ?>" id="">
-            <option value="">---Pilih Barang---</option>
-            <?php $sql = $this->db->query("SELECT * FROM barang")->result();
+        <select name="" class="form-control select2" id="kategori">
+            <option value="">---Pilih Kategori---</option>
+            <?php $sql = $this->db->query("SELECT * FROM kategori")->result();
             foreach ($sql as $s) {
                 $selected = '';
-                if ($value['kode_barang'] != '') {
-                    $selected = $value['kode_barang'] == $s->kode_barang ? 'selected' : '';
+                if ($value['id_kategori'] != '') {
+                    $selected = $value['id_kategori'] == $s->id_kategori ? 'selected' : '';
                 }
             ?>
-                <option data-idr='<?= $s->harga_jual ?>' value="<?= $s->kode_barang ?>" <?= $selected ?>><?= $s->nama_barang ?></option>
+                <option value="<?= $s->id_kategori ?>" <?= $selected ?>><?= $s->nama_kategori ?></option>
             <?php } ?>
         </select>
     </div>
@@ -37,21 +38,12 @@
     <div class="col-md-4">
         <?php
         if (isset($edit)) {
-            echo "<input type='hidden' name='id_detail[]' value='$value[id_detail]'>";
+            echo "<input type='text' name='id_detail[]' value='$value[id_detail]'>";
         }
         ?>
         <label for="">Nama Barang</label>
-        <select name="kode_barang[]" class="form-control select2 setHarga" data-target="#harga<?= $now ?>" id="">
+        <select name="kode_barang[]" class="form-control select2 setHarga" data-target="#harga<?= $now ?>" id="barang">
             <option value="">---Pilih Barang---</option>
-            <?php $sql = $this->db->query("SELECT * FROM barang")->result();
-            foreach ($sql as $s) {
-                $selected = '';
-                if ($value['kode_barang'] != '') {
-                    $selected = $value['kode_barang'] == $s->kode_barang ? 'selected' : '';
-                }
-            ?>
-                <option data-idr='<?= $s->harga_jual ?>' value="<?= $s->kode_barang ?>" <?= $selected ?>><?= $s->nama_barang ?></option>
-            <?php } ?>
         </select>
     </div>
     <div class="col-md-1">

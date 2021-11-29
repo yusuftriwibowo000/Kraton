@@ -416,6 +416,22 @@ class Transaksi extends CI_Controller
 	 
 	}
 
+	//tampil dropdown tabel barang
+	public function barang($id_kategori)
+	{
+		$query = $this->db->get_where('barang',array('id_kategori'=>$id_kategori));
+      	$data = "<option selected>--Pilih Barang--</option>";
+		foreach ($query->result() as $s) {
+			// $selected = '';
+			// if ($value['kode_barang'] != '') {
+			// 	$selected = $value['kode_barang'] == $s->kode_barang ? 'selected' : '';
+			// }
+
+			$data .= "<option data-idr='".$s->harga_jual."' value='".$s->kode_barang."'>".$s->nama_barang."</option>";
+		}
+      echo $data;
+	}
+
 
     public function cetak_struk() {
         // me-load library escpos

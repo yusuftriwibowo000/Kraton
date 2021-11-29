@@ -149,8 +149,10 @@ $(document).ready(function () {
 	}
 	
 	function getKembalian(){
-		var totalBayar = parseInt($("#inputBayar").val())
-		var potongan = parseInt($("#inputPotongan").val())
+		var total = $("#inputBayar").val()
+		var total2 = total.replace(/[,{\}\[\]/]/gi,'')
+		var totalBayar = parseInt(total2)
+		// var potongan = parseInt($("#inputPotongan").val())
 		var htmlTotal = $("#total").html()
 		if(htmlTotal!='0'){
 			var	kembalian = totalBayar - getPotongan();
@@ -165,19 +167,29 @@ $(document).ready(function () {
 		return parseInt(total);
 	}
 	function getPotongan(){
-		var thisVal = parseInt($("#inputPotongan").val())
+		var potong = $("#inputPotongan").val()
+		var potong2 = potong.replace(/[,{\}\[\]/]/gi,'')
+		var potongan = parseInt(potong2)
+		// var potongan = parseInt($("#inputPotongan").val())
 		var htmlTotal = $("#total").html()
 		if(htmlTotal!='0'){
-			var total =  getTotal() - thisVal
+			var total =  getTotal() - potongan
 
 			return parseInt(total);
 		}
  	}
 
-	 $("#inputBayar").keyup(function(e){
+	 //format uang rupiah
+	$("#inputBayar").keyup(function(e){
         $(this).val(formatRupiah($(this).val()));
-      });
+    });
+
+	  //potongan harga
+	$("#inputPotongan").keyup(function(){
+        $(this).val(formatRupiah($(this).val()));
+    });
 	 
+	  //total kembalian
 	$(".totalKembalian").keyup(function(){
 		if($(this).val()!=''){
 			$("#total").html(rupiah(getPotongan()));
@@ -185,6 +197,7 @@ $(document).ready(function () {
 		}
 	})
 	
+	//qty harga
 	$(".qtyHarga").keyup(function () {
 		qtyHarga($(this));
 			$("#total").html(rupiah(getPotongan()));
