@@ -154,9 +154,9 @@ class Transaksi extends CI_Controller
 		foreach ($_POST['qty'] as $value) {
 			$total_qty += $value;
 		}
-		$total_bayar = preg_replace("/[,{\}\[\]/]/","",$this->input->post('total_bayar'));
+		$total_bayar = preg_replace("/\D/","",$this->input->post('total_bayar'));
 		
-		$potongan = preg_replace("/[,{\}\[\]/]/","",$this->input->post('potongan'));
+		$potongan = preg_replace("/\D/","",$this->input->post('potongan'));
 		$kode_penjualan = $this->M_penjualan->get_kodepenjualan();
 		$penjualan = array(
 			'kode_penjualan' => $kode_penjualan,
