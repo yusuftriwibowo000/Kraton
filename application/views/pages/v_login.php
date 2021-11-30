@@ -16,7 +16,7 @@
             <div class="col-md-6">
                 <div class="box-login">
                     <div class="top">
-                        <p>E-Kasir Kurnia</p>
+                        <p></p>
                     </div>
                     <div class="body">
                     <?php echo $this->session->flashdata('username'); ?>

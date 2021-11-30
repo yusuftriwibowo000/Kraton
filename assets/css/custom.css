@@ -23,7 +23,7 @@ body {
 }
 
 .box-login .top {
-    background: url("../../assets/img/bglogin.jpg");
+    background: url("../../assets/img/Frame 9.jpg");
     background-position: top;
     background-size: cover;
     background-repeat: no-repeat;
@@ -61,7 +61,7 @@ body {
 
 .box-login .top::before {
     content: "";
-    background: rgba(54, 84, 99, 0.7);
+    
     width: 100%;
     height: 100%;
     z-index: 1;

@@ -143,7 +143,7 @@ class Login extends CI_Controller{
                         'status' => "login"
                     );
                     $this->session->set_userdata($data_session);
-                    redirect('Dashboard');
+                    redirect('transaksi/penjualan');
                 } else if ($pass['level'] == "karyawan") {
                     $data_session = array(
                         'id_admin' => $pass['id_admin'],
@@ -152,7 +152,7 @@ class Login extends CI_Controller{
                         'status' => "login"
                     );
                     $this->session->set_userdata($data_session);
-                    redirect('Dashboard');
+                    redirect('transaksi/penjualan');
                 }  
             } else {
                 $this->session->set_flashdata('password', '<div class="alert alert-danger" role="alert">Password anda salah!</div>');
