@@ -157,6 +157,8 @@ class Transaksi extends CI_Controller
 		$total_bayar = preg_replace("/\D/","",$this->input->post('total_bayar'));
 		
 		$potongan = preg_replace("/\D/","",$this->input->post('potongan'));
+		var_dump($total_qty);
+		var_dump($potongan);
 		$kode_penjualan = $this->M_penjualan->get_kodepenjualan();
 		$penjualan = array(
 			'kode_penjualan' => $kode_penjualan,
@@ -193,15 +195,33 @@ class Transaksi extends CI_Controller
 		}
 		//update stok di tabel barang
 		foreach ($_POST['kode_barang'] as $key => $value) {
-
+			$kode_trans = $lasId[0]['kode_penjualan'];
 			$kode_barang = $this->input->post('kode_barang')[$key];
+			$stok = $this->db->query("SELECT stok FROM barang WHERE kode_barang = '$kode_barang'")->result_array();
 			$qty = $this->input->post('qty')[$key];
-			$this->db->query("UPDATE `barang` SET `stok`=stok-'$qty' WHERE kode_barang='$kode_barang'");
+			$sisa_stok = $stok[0]['stok'] - $qty;
+			if($sisa_stok < 0){ //jika stok < 0
+				$this->db->query("DELETE FROM penjualan WHERE kode_penjualan = '$kode_trans'");
+				$this->db->query("DELETE FROM buku_besar WHERE kode_transaksi = '$kode_trans'");
+				$this->db->query("DELETE FROM detail_penjualan WHERE kode_penjualan = '$kode_trans'");
+				$this->session->set_flashdata('error', '<div class="alert alert-danger" role="alert">Stok Tidak Cukup !</div>');
+				redirect('transaksi/penjualan');
+			}elseif($sisa_stok == 0){ //jika stok = 0
+				$this->db->query("DELETE FROM penjualan WHERE kode_penjualan = '$kode_trans'");
+				$this->db->query("DELETE FROM buku_besar WHERE kode_transaksi = '$kode_trans'");
+				$this->db->query("DELETE FROM detail_penjualan WHERE kode_penjualan = '$kode_trans'");
+				$this->session->set_flashdata('error', '<div class="alert alert-danger" role="alert">Stok Habis !</div>');
+				redirect('transaksi/penjualan');
+			}else{ //jika stok masih cukup
+				$this->db->query("UPDATE `barang` SET `stok`=stok-'$qty' WHERE kode_barang='$kode_barang'");
+				$this->cetak_struk(); //cetak struk
+				$this->session->set_flashdata('sukses', '<div class="alert alert-success" role="alert">Berhasil Melakukan Transaksi '.' '.$kode_trans.''.' !</div>');
+				redirect('transaksi/penjualan');
+			}
 		}
-
-		$this->cetak_struk(); //cetak struk
-		$this->session->set_flashdata('tambahpenjualan', '<div class="alert alert-success" role="alert">Penjualan Berhasil Disimpan</div>');
-		redirect('transaksi/penjualan');
+		// $this->cetak_struk(); //cetak struk
+		// $this->session->set_flashdata('tambahpenjualan', '<div class="alert alert-success" role="alert">Penjualan Berhasil Disimpan</div>');
+		// redirect('transaksi/penjualan');
 	}
 
 

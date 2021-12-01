@@ -195,6 +195,8 @@
           </div>
           <div class="row pb-5">
             <div class="col-md-12">
+              <?php echo $this->session->flashdata('error'); ?>
+              <?php echo $this->session->flashdata('sukses'); ?>
               <?php echo $contents; ?>
             </div>
           </div>
