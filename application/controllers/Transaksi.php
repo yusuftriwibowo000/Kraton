@@ -197,20 +197,20 @@ class Transaksi extends CI_Controller
 		foreach ($_POST['kode_barang'] as $key => $value) {
 			$kode_trans = $lasId[0]['kode_penjualan'];
 			$kode_barang = $this->input->post('kode_barang')[$key];
-			$stok = $this->db->query("SELECT stok FROM barang WHERE kode_barang = '$kode_barang'")->result_array();
+			$stok = $this->db->query("SELECT stok, nama_barang FROM barang WHERE kode_barang = '$kode_barang'")->result_array();
 			$qty = $this->input->post('qty')[$key];
 			$sisa_stok = $stok[0]['stok'] - $qty;
 			if($sisa_stok < 0){ //jika stok < 0
 				$this->db->query("DELETE FROM penjualan WHERE kode_penjualan = '$kode_trans'");
 				$this->db->query("DELETE FROM buku_besar WHERE kode_transaksi = '$kode_trans'");
 				$this->db->query("DELETE FROM detail_penjualan WHERE kode_penjualan = '$kode_trans'");
-				$this->session->set_flashdata('error', '<div class="alert alert-danger" role="alert">Stok Tidak Cukup !</div>');
+				$this->session->set_flashdata('error', '<div class="alert alert-danger" role="alert">Stok <strong>'.$stok[0]['nama_barang'].'</strong> Tidak Cukup !</div>');
 				redirect('transaksi/penjualan');
 			}elseif($sisa_stok == 0){ //jika stok = 0
 				$this->db->query("DELETE FROM penjualan WHERE kode_penjualan = '$kode_trans'");
 				$this->db->query("DELETE FROM buku_besar WHERE kode_transaksi = '$kode_trans'");
 				$this->db->query("DELETE FROM detail_penjualan WHERE kode_penjualan = '$kode_trans'");
-				$this->session->set_flashdata('error', '<div class="alert alert-danger" role="alert">Stok Habis !</div>');
+				$this->session->set_flashdata('error', '<div class="alert alert-danger" role="alert">Stok <strong>'.$stok[0]['nama_barang'].'</strong> Habis !</div>');
 				redirect('transaksi/penjualan');
 			}else{ //jika stok masih cukup
 				$this->db->query("UPDATE `barang` SET `stok`=stok-'$qty' WHERE kode_barang='$kode_barang'");
