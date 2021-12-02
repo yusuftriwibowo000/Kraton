@@ -58,7 +58,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="basic-addon1"><span class="fas fa-address-book"></span> </span>
                         </div>
-                        <input type="text" name="total_bayar" class="form-control totalKembalian" id='inputBayar' value='0'>
+                        <input type="text" name="total_bayar" class="form-control totalKembalian" id='inputBayar' value='0' onkeypress="return angka(event)">
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -67,7 +67,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="basic-addon1"><span class="fas fa-address-book"></span> </span>
                         </div>
-                        <input type="text" name="potongan" class="form-control totalKembalian" id='inputPotongan' value='0'>
+                        <input type="text" name="potongan" class="form-control totalKembalian" id='inputPotongan' value='0' onkeypress="return angka(event)">
                     </div>
                 </div>
             </div>

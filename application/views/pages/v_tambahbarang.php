@@ -9,8 +9,8 @@
             <input name="nama_barang"  type="text" placeholder="Nama Barang" class="form-control">
             <br>
             <label>Kategori Barang</label>
-            <select name="id_kategori" id="" class="form-control select2">
-                <option value="Aksesoris" disabled selected>--Pilih Kategori--</option>
+            <select name="id_kategori" id="" class="form-control select2" required>
+                <option value="" disabled selected>--Pilih Kategori--</option>
                 <?php foreach($kategori as $g) { ?>
                 <option value="<?= $g->id_kategori ?>" ><?= $g->nama_kategori ?></option>
                 <?php } ?>

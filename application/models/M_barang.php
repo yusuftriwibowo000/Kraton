@@ -83,6 +83,7 @@ class M_barang   extends CI_Model
 		$this->kode_barang = $kode_barang;
         $this->nama_barang = $post['nama_barang'];
         $this->id_kategori = $post['id_kategori'];
+        $this->stok = $post['stok'];
         $this->harga_jual = $post['harga_jual'];
         $this->keterangan = $post['keterangan'];
         $this->db->update($this->_table, $this, array("kode_barang" => $kode_barang));

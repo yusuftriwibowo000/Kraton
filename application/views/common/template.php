@@ -264,6 +264,8 @@
   <script src="<?php echo base_url() . "assets/" ?>vendor/sweetalert-master/dist/sweetalert-dev.js"></script>
   <script src="<?php echo base_url() . "assets/" ?>vendor/bootstrap-datepicker-master/dist/js/bootstrap-datepicker.min.js"></script>
   <script src="<?php echo base_url() . "assets/" ?>js/custom.js"></script>
+  
+  <!-- Tampil barang berdasarkan kategori -->
   <script>
     $(document).ready(function(){
       //kategori
@@ -273,6 +275,15 @@
         return false;
       })
     });
+  </script>
+  <script>
+    function angka(evt) {
+		  var charCode = (evt.which) ? evt.which : event.keyCode
+		   if (charCode > 31 && (charCode < 48 || charCode > 57))
+ 
+		    return false;
+		  return true;
+		}
   </script>
 </body>
 
