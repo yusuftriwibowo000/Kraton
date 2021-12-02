@@ -206,6 +206,12 @@ class Transaksi extends CI_Controller
 				$this->db->query("DELETE FROM detail_penjualan WHERE kode_penjualan = '$kode_trans'");
 				$this->session->set_flashdata('error', '<div class="alert alert-danger" role="alert">Stok <strong>'.$stok[0]['nama_barang'].'</strong> Tidak Cukup !</div>');
 				redirect('transaksi/penjualan');
+			}elseif($kode_barang == 0){ //jika tidak ada transaksi tetapi tombol save ditekan
+				$this->db->query("DELETE FROM penjualan WHERE kode_penjualan = '$kode_trans'");
+				$this->db->query("DELETE FROM buku_besar WHERE kode_transaksi = '$kode_trans'");
+				$this->db->query("DELETE FROM detail_penjualan WHERE kode_penjualan = '$kode_trans'");
+				$this->session->set_flashdata('error', '<div class="alert alert-danger" role="alert">Transaksi <strong>'.$stok[0]['nama_barang'].'</strong> Kosong !</div>');
+				redirect('transaksi/penjualan');
 			}elseif($sisa_stok == 0){ //jika stok = 0
 				$this->db->query("DELETE FROM penjualan WHERE kode_penjualan = '$kode_trans'");
 				$this->db->query("DELETE FROM buku_besar WHERE kode_transaksi = '$kode_trans'");
