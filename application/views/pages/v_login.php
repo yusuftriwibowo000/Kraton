@@ -27,7 +27,7 @@
 
                         <form action="<?= base_url('Login/aksi_login') ?>" method="POST">
                             <div class="form-underline">
-                                <input type="text" name="username" placeholder="Masukkan Username" />
+                                <input type="text" name="username" placeholder="Masukkan Username" autofocus/>
                                 <span class="fa fa-user"></span>
                             </div>
                             <br>
