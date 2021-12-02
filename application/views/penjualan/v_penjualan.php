@@ -58,7 +58,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="basic-addon1"><span class="fas fa-address-book"></span> </span>
                         </div>
-                        <input type="text" name="total_bayar" class="form-control totalKembalian" id='inputBayar' value='0' onkeypress="return angka(event)">
+                        <input type="text" name="total_bayar" class="form-control totalKembalian" id='inputBayar' onkeypress="return angka(event)" required>
                     </div>
                 </div>
                 <div class="col-md-4">
