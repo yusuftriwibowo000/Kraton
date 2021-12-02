@@ -48,7 +48,7 @@
     </div>
     <div class="col-md-1">
         <label for="">Jumlah</label>
-        <input type="number" name='qty[]' class="form-control qtyHarga" value='<?= $value['qty'] ?>' id='qty<?= $now ?>' data-parent='#harga<?= $now ?>' data-subtotal='#subtotal<?= $now ?>'>
+        <input type="number" name='qty[]' class="form-control qtyHarga" value='<?= $value['qty'] ?>' id='qty<?= $now ?>' data-parent='#harga<?= $now ?>' data-subtotal='#subtotal<?= $now ?>' required>
     </div>
     <div class="col-md-2">
         <label for="">Harga Satuan</label>
