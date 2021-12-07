@@ -554,9 +554,9 @@ class Transaksi extends CI_Controller
         $printer->initialize();
         $printer->setJustification(Escpos\Printer::JUSTIFY_CENTER);
         $printer->text("Terima kasih telah berbelanja\n");
-		$printer->text("BARANG YANG SUDAH DIBELI TIDAK DAPAT\n");
-		$printer->text("DITUKAR / DIKEMBALIKAN\n");
-		$printer->text("KECUALI ADA PERJANJIAN\n");
+		$printer->text("barang yang sudah dibeli tidak dapat\n");
+		$printer->text("ditukar / dikembalikan\n");
+		$printer->text("kecuali ada perjanjian\n");
         // $printer->text("http://badar-blog.blogspot.com\n");
         $printer->feed(4); // mencetak 5 baris kosong agar terangkat (pemotong kertas saya memiliki jarak 5 baris dari toner)
         
